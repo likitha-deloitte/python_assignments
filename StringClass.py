@@ -1,7 +1,7 @@
 class StringClass:
 
     def __init__(self):
-        self.name = "334455"
+        self.name = "98765"
 
     def print_Name(self):
         print(len(self.name))
