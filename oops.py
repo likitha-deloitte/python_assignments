@@ -16,8 +16,7 @@ class PairsPossible(StringClass):
 
     def getcombinations(self):
         from itertools import combinations
-        list1 = []
-        list1[:0] = self.strings
+        list1 = list(self.strings)
         res = list(combinations(list1, 2))
         return res
     def printlist(self,lists):
@@ -28,5 +27,6 @@ x.stringlength()
 x.converttolist()
 listes = x.getcombinations()
 x.printlist(listes);
+
 
 
