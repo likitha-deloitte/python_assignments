@@ -25,8 +25,8 @@ class PairsPossible(StringClass):
 x = PairsPossible()
 x.stringlength()
 x.converttolist()
-listes = x.getcombinations()
-x.printlist(listes);
+list1 = x.getcombinations()
+x.printlist(list1);
 
 
 
