@@ -1,19 +1,10 @@
 list = [[1, 1, 3, 2], [9, 8, 8, 1], [0, 4, 5, 0, 0, 1, 4]]
-count = 1
-for i in list[0]:
-    if list[0].count(i) > 1:
-        count = count+1
-        print(i, list[0].count(i))
-
-for i in list[1]:
-    if list[1].count(i) > 1:
-        count = count+1
-        print(i, list[1].count(i))
-
-for i in list[2]:
-    if list[2].count(i) > 1:
-        count = count+1
-        print(i, list[2].count(i))
+print("Duplicate values from the list are : ")
+for y in list:
+    for j in set(y):
+        value = y.count(j)
+        if(value > 1):
+            print(str(j)+'->'+str(value))
 
 # -------------------------------------------------
 list1 = ["Hello ", "take "]
