@@ -5,12 +5,16 @@ for y in list:
         value = y.count(j)
         if(value > 1):
             print(str(j)+'->'+str(value))
+print('')
 
 # -------------------------------------------------
-list1 = ["Hello ", "take "]
-list2 = ["Dear", "Sir"]
-newlist = [x+y for x in list1 for y in list2]
-print("Merged List: ", newlist)
+arr = ["Hello ", "take "]
+arr2 = ["Dear", "Sir"]
+arr3 = []
+for v in arr:
+    for v2 in arr2:
+        arr3.append(v+v2)
+print(arr3)
 print('')
 
 # --------------------------------------------------
