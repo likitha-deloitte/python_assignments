@@ -18,6 +18,7 @@ class Movie:
         self.firstShow = firstShow
         self.seatsBooked = []
         self.time = []
+        self.calculateShowTimings()
 
     def printMovieforAdmin(self):
         print(f'Title: {self.title}')
@@ -45,6 +46,50 @@ class Movie:
         self.printTimings()
         print(f'User Rating: {self.uR}/10')
 
+    def convert12(self, hh, mm):
+        Meridien = "";
+        if (hh < 12):
+            Meridien = "AM";
+        else:
+            Meridien = "PM";
+        hh %= 12;
+        if (hh == 0):
+            s = '12:'
+        else:
+            s = str(hh) + ':'
+        if (mm < 10):
+            s = s + '0' + str(mm)
+        else:
+            s = s + str(mm)
+        s = s + '' + Meridien;
+        return s
+
+    def calculateShowTimings(self):
+        totalTime = self.length + self.interval + self.gap
+        totalHours = totalTime // 60
+        totalMins = totalTime % 60
+        prevHours = int(self.firstShow[0:2])
+        prevMins = int(self.firstShow[3:5])
+        currentHours = 0
+        currentMins = 0
+        for i in range(self.noOfShows):
+            currentHours = (prevHours + totalHours) + ((prevMins + totalMins)//60)
+            currentMins = (prevMins + totalMins) % 60
+            x = self.convert12(currentHours, currentMins)
+            y = self.convert12(prevHours, prevMins)
+            prevHours = currentHours
+            prevMins = currentMins
+            s = y + '-' + x
+            self.time.append(s)
+            self.seatsBooked.append(0)
+
+    def printTimings(self):
+        j = 1
+        for i in self.time:
+            print(f'{j}.{i}')
+            j += 1
+
+
 class User:
     def __init__(self,name,age,phone,password,email):
         self.name = name
@@ -71,8 +116,8 @@ if __name__ == "__main__":
             typeOfUser = input('User: ')
             password = input('Password: ')
 
-            if(typeOfUser == "Admin"):
-                if(password == adminPassword):
+            if (typeOfUser == "Admin"):
+                if (password == adminPassword):
 
                     while True:
                         print(f'****** Welcome {typeOfUser} ******')
@@ -117,6 +162,70 @@ if __name__ == "__main__":
                             break
                 else:
                     print('Incorrect Password')
+
+            else:
+                if (usersDatabase.get(typeOfUser)):
+                    current = usersDatabase.get(typeOfUser)
+                    if (current.password == password):
+
+                        while True:
+                            print(f'****** Welcome {typeOfUser} ******')
+                            i = 1
+                            for key in moviesDatabase:
+                                indexOfMovies[i] = key
+                                print(f'{i}. {key}')
+                                i = i + 1
+                            selectedIndex = (int)(input('Enter movie index: '))
+                            selectedMovie = indexOfMovies.get(selectedIndex)
+                            movieObj = moviesDatabase.get(selectedMovie)
+                            movieObj.printMovieForUser()
+                            print('1.Book Tickets')
+                            print('2.Cancel Tickets')
+                            print('3.Give User Rating')
+                            print('4.Logout')
+                            selectedInput = (int)(input('Enter: '))
+                            if (selectedInput == 1):
+                                movieObj.printTimings()
+                                timings = (int)(input('Select Timings: '))
+                                timings -= 1
+                                print(f'Timings: {movieObj.time[timings]}')
+                                print(f'Remaining Seats: {movieObj.capa - movieObj.seatsBooked[timings]}')
+                                number = (int)(input('Enter Number of Seats: '))
+                                if (movieObj.seatsBooked[timings] + number <= movieObj.capa):
+                                    movieObj.seatsBooked[timings] += number
+                                    print('Thanks for Booking.')
+                                else:
+                                    print('Enough Seats are not Available')
+
+                            elif (selectedInput == 2):
+                                movieObj.printTimings()
+                                timings = (int)(input('Select Timings: '))
+                                timings -= 1
+                                print(f'Timings: {movieObj.time[timings]}')
+                                number = (int)(input('Number of seats you wanted to cancel: '))
+                                movieObj.seatsBooked[timings] -= number
+
+                            elif (selectedInput == 3):
+                                number = (int)(input('Please enter the rating for the following movie: '))
+                                movieObj.uR = number
+                            else:
+                                break
+                    else:
+                        print('Incorrect Password')
+                else:
+                    print('No such user exits . Please Register.')
+
+        elif (userInput == 2):
+                print('****** Create New Account ******')
+                name = input('User: ')
+                email = input('Email: ')
+                phone = (int)
+                input('Phone: ')
+                age = (int)
+                input('Age: ')
+                password = input('Password: ')
+                user1 = User(name, age, phone, password, email)
+                usersDatabase[name] = user1
 
         elif (userInput == 3):
             break
